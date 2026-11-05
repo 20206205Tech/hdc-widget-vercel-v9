@@ -34,7 +34,7 @@ function render(){
  if(!l){box.innerHTML=hd+'Host đã có nhưng chưa dựng giao diện...';return}
  var mobile=innerWidth<=520,want=mobile?56:48,r=l.getBoundingClientRect();
  var sizeOk=near(r.width,want)&&near(r.height,want);
- var gapB=innerHeight-r.bottom,posOk=r.left<40&&gapB<40&&r.left>=0&&gapB>=0;
+ var vh=root.clientHeight||innerHeight,sb=innerHeight-vh,gapB=vh-r.bottom,posOk=r.left<40&&gapB<40&&r.left>=0&&gapB>=0;
  var cx=r.left+r.width/2,cy=r.top+r.height/2,hit=document.elementFromPoint(cx,cy),clickOk=hit===host;
  var win=wsr.querySelector('.mrag-chat-window'),wr=win&&win.getBoundingClientRect(),winOpen=wr&&wr.width>0;
  var winOk=!winOpen||mobile||(near(wr.width,360)&&near(wr.height,520));
@@ -47,7 +47,7 @@ function render(){
  var fails=[];if(!sizeOk)fails.push('kích thước launcher');if(!posOk)fails.push('vị trí launcher');if(!clickOk)fails.push('launcher bị che/không bấm được');if(!winOk)fails.push('kích thước khung chat');if(!fontOk)fails.push('cỡ chữ tin nhắn');if(!textOk)fails.push('thừa kế CSS chữ');if(!gapOk)fails.push('thừa chiều cao trang');
  var out=hd+'<span style="color:#93c5fd">Hiện tại:</span><br>'
  +ok(sizeOk)+' Launcher '+r.width.toFixed(1)+'x'+r.height.toFixed(1)+' (chuẩn '+want+'x'+want+')<br>'
- +ok(posOk)+' Vị trí: trái '+r.left.toFixed(0)+'px, dưới '+gapB.toFixed(0)+'px (mong muốn ~24/24)<br>'
+ +ok(posOk)+' Vị trí: trái '+r.left.toFixed(0)+'px, dưới '+gapB.toFixed(0)+'px (mong muốn ~24/24)'+(sb>0?' | thanh cuộn ngang '+sb+'px':'')+'<br>'
  +ok(clickOk)+' Bấm được tại launcher: '+(clickOk?'có':'KHÔNG ('+(hit&&hit.tagName||'null')+' đè lên)')+'<br>'
  +ok(winOk)+' Khung chat: '+(winOpen?wr.width.toFixed(0)+'x'+wr.height.toFixed(0)+' (chuẩn 360x520)':'chưa mở (bấm launcher để đo)')+'<br>'
  +ok(fontOk)+' Chữ tin nhắn: '+(bub?fsB+' (chuẩn 14px) | '+nMsg+' tin nhắn':(nMsg?'có '+nMsg+' tin nhắn nhưng không tìm thấy phần tử chữ':'chưa có tin nhắn (gửi 1 tin để đo)'))+'<br>'
