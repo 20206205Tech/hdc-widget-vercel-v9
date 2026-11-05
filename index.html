@@ -38,7 +38,7 @@ function render(){
  var cx=r.left+r.width/2,cy=r.top+r.height/2,hit=document.elementFromPoint(cx,cy),clickOk=hit===host;
  var win=wsr.querySelector('.mrag-chat-window'),wr=win&&win.getBoundingClientRect(),winOpen=wr&&wr.width>0;
  var winOk=!winOpen||mobile||(near(wr.width,360)&&near(wr.height,520));
- var bub=wsr.querySelector('.mrag-message-bubble'),fsB=bub&&getComputedStyle(bub).fontSize,fontOk=!bub||fsB==='14px';
+ var nMsg=wsr.querySelectorAll('[data-message-role]').length,bub=wsr.querySelector('.mrag-message-bubble')||wsr.querySelector('[data-message-role="user"] .mrag-markdown')||wsr.querySelector('[data-message-role] .mrag-markdown')||wsr.querySelector('[data-message-role] [class*="text-sm"]'),fsB=bub&&getComputedStyle(bub).fontSize,fontOk=!bub||fsB==='14px';
  var re=wsr.querySelector('.mrag-widget-root'),cs=re&&getComputedStyle(re);
  var textOk=!cs||(cs.letterSpacing==='normal'&&cs.wordSpacing==='0px'&&cs.textTransform==='none'&&cs.writingMode==='horizontal-tb'&&cs.direction==='ltr'&&cs.fontStyle==='normal');
  if(needGap&&!winOpen){var a0=root.scrollHeight,v=host.style.getPropertyValue('display'),pr=host.style.getPropertyPriority('display');host.style.setProperty('display','none','important');var b0=root.scrollHeight;host.style.setProperty('display',v||'block',pr);gapCache={a:a0,b:b0};needGap=false}
@@ -50,7 +50,7 @@ function render(){
  +ok(posOk)+' Vị trí: trái '+r.left.toFixed(0)+'px, dưới '+gapB.toFixed(0)+'px (mong muốn ~24/24)<br>'
  +ok(clickOk)+' Bấm được tại launcher: '+(clickOk?'có':'KHÔNG ('+(hit&&hit.tagName||'null')+' đè lên)')+'<br>'
  +ok(winOk)+' Khung chat: '+(winOpen?wr.width.toFixed(0)+'x'+wr.height.toFixed(0)+' (chuẩn 360x520)':'chưa mở (bấm launcher để đo)')+'<br>'
- +ok(fontOk)+' Chữ tin nhắn: '+(bub?fsB+' (chuẩn 14px)':'chưa có tin nhắn (gửi 1 tin để đo)')+'<br>'
+ +ok(fontOk)+' Chữ tin nhắn: '+(bub?fsB+' (chuẩn 14px) | '+nMsg+' tin nhắn':(nMsg?'có '+nMsg+' tin nhắn nhưng không tìm thấy phần tử chữ':'chưa có tin nhắn (gửi 1 tin để đo)'))+'<br>'
  +ok(textOk)+' Chữ: letter-spacing='+(cs?cs.letterSpacing:'-')+', transform='+(cs?cs.textTransform:'-')+', hướng='+(cs?cs.writingMode+'/'+cs.direction:'-')+'<br>'
  +ok(gapOk)+' Thừa chiều cao trang: '+(G.wait?'chưa đo (đóng khung chat để đo)':d+'px (chuẩn 0) | cao '+a+'/'+b)+'<br>'
  +'Host: dưới '+(host.parentNode===root?'&lt;html&gt;':'&lt;body&gt;')+' | top layer (Popover): '+(pop?'có':'không')+'<br>'
