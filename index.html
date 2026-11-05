@@ -10,10 +10,55 @@
 <style>html,body{letter-spacing:.35em!important;word-spacing:1em!important;text-transform:uppercase!important;font-weight:900!important;color:#e11d48!important;text-indent:2em!important;font-style:italic!important;text-shadow:2px 2px 0 #fde047!important;font-variant:small-caps!important;text-decoration:underline wavy red!important;white-space:pre!important}</style>
 </head>
 <body>
-<div id="__case" style="position:fixed;left:8px;top:8px;max-width:360px;z-index:2147483646;background:#111;color:#fff;font:12px/1.4 monospace;padding:6px 8px;border-radius:6px;letter-spacing:0;text-transform:none;writing-mode:horizontal-tb;direction:ltr;pointer-events:none;white-space:normal;text-indent:0;font-weight:400;font-style:normal;text-shadow:none">
-<b>CASE 9</b>: Thừa kế thuộc tính chữ từ body<br><span id="__fs"></span><br><span id="__gap">host: chưa tải</span></div>
-<script>(function(){var u=function(){var e=document.getElementById('__fs');if(e)e.textContent='html font-size='+getComputedStyle(document.documentElement).fontSize+' | w='+innerWidth+'px'};addEventListener('DOMContentLoaded',u);addEventListener('resize',u);u();
-var g=function(){var e=document.getElementById('__gap'),h=document.querySelector('[data-mrag-widget-host]');if(!e)return;if(!h){e.textContent='host: chưa tải';return}var r=document.documentElement,a=r.scrollHeight,v=h.style.getPropertyValue('display'),p=h.style.getPropertyPriority('display');h.style.setProperty('display','none','important');var b=r.scrollHeight;h.style.setProperty('display',v||'block',p);var d=a-b;e.style.color=d>0?'#fca5a5':'#86efac';e.textContent='chiều cao trang: có host '+a+' / không host '+b+' => thừa '+d+'px'+(h.parentNode===document.documentElement?' (host dưới html)':' (host dưới body)')};setInterval(g,2000)})()</script>
+<script>(function(){
+var N=9,TITLE="Th\u1eeba k\u1ebf thu\u1ed9c t\u00ednh ch\u1eef t\u1eeb body",EXP="Th\u1eeba k\u1ebf ch\u1eef tr\u00ean html/body: ch\u1eef widget KH\u00d4NG gi\u00e3n, KH\u00d4NG in hoa, KH\u00d4NG \u0111\u1ed5i m\u00e0u.";
+var h=document.createElement('div');
+h.id='__mrag_badge';
+h.style.cssText='all:initial!important;display:block!important;position:fixed!important;top:8px!important;left:8px!important;z-index:2147483646!important;pointer-events:none!important';
+var sr=h.attachShadow({mode:'open'});
+var box=document.createElement('div');
+box.style.cssText='all:initial;display:block;max-width:400px;background:#111;color:#fff;font:11.5px/1.5 monospace;padding:8px 10px;border-radius:6px;white-space:normal;opacity:.96';
+sr.appendChild(box);
+document.documentElement.appendChild(h);
+try{h.popover='manual';h.showPopover()}catch(e){}
+function ok(c){return c?'<b style="color:#86efac">&#10003;</b>':'<b style="color:#fca5a5">&#10007;</b>'}
+function near(a,b,t){return Math.abs(a-b)<=(t||1.5)}
+function render(){
+ var root=document.documentElement,hd='<b>CASE '+N+'</b>: '+TITLE+'<br><span style="color:#fde68a">Mong muốn:</span> '+EXP+'<br>';
+ var cs0=getComputedStyle(root);
+ hd+='<span style="color:#93c5fd">Trang:</span> html font-size='+cs0.fontSize+' | rộng '+innerWidth+'px | cao '+innerHeight+'px<br>';
+ var host=document.querySelector('[data-mrag-widget-host]');
+ if(!host){box.innerHTML=hd+'<span style="color:#fca5a5">Widget chưa tải (kiểm tra embed / Vercel / domain)...</span>';return}
+ var wsr=host.shadowRoot,l=wsr&&wsr.querySelector('.mrag-chat-launcher-button');
+ if(!l){box.innerHTML=hd+'Host đã có nhưng chưa dựng giao diện...';return}
+ var mobile=innerWidth<=520,want=mobile?56:48,r=l.getBoundingClientRect();
+ var sizeOk=near(r.width,want)&&near(r.height,want);
+ var gapB=innerHeight-r.bottom,posOk=r.left<40&&gapB<40&&r.left>=0&&gapB>=0;
+ var cx=r.left+r.width/2,cy=r.top+r.height/2,hit=document.elementFromPoint(cx,cy),clickOk=hit===host;
+ var win=wsr.querySelector('.mrag-chat-window'),wr=win&&win.getBoundingClientRect(),winOpen=wr&&wr.width>0;
+ var winOk=!winOpen||mobile||(near(wr.width,360)&&near(wr.height,520));
+ var bub=wsr.querySelector('.mrag-message-bubble'),fsB=bub&&getComputedStyle(bub).fontSize,fontOk=!bub||fsB==='14px';
+ var re=wsr.querySelector('.mrag-widget-root'),cs=re&&getComputedStyle(re);
+ var textOk=!cs||(cs.letterSpacing==='normal'&&cs.wordSpacing==='0px'&&cs.textTransform==='none'&&cs.writingMode==='horizontal-tb'&&cs.direction==='ltr'&&cs.fontStyle==='normal');
+ var a=root.scrollHeight,v=host.style.getPropertyValue('display'),pr=host.style.getPropertyPriority('display');
+ host.style.setProperty('display','none','important');var b=root.scrollHeight;host.style.setProperty('display',v||'block',pr);
+ var d=a-b,gapOk=d<=0;
+ var pop=false;try{pop=host.matches(':popover-open')}catch(e){}
+ var fails=[];if(!sizeOk)fails.push('kích thước launcher');if(!posOk)fails.push('vị trí launcher');if(!clickOk)fails.push('launcher bị che/không bấm được');if(!winOk)fails.push('kích thước khung chat');if(!fontOk)fails.push('cỡ chữ tin nhắn');if(!textOk)fails.push('thừa kế CSS chữ');if(!gapOk)fails.push('thừa chiều cao trang');
+ var out=hd+'<span style="color:#93c5fd">Hiện tại:</span><br>'
+ +ok(sizeOk)+' Launcher '+r.width.toFixed(1)+'x'+r.height.toFixed(1)+' (chuẩn '+want+'x'+want+')<br>'
+ +ok(posOk)+' Vị trí: trái '+r.left.toFixed(0)+'px, dưới '+gapB.toFixed(0)+'px (mong muốn ~24/24)<br>'
+ +ok(clickOk)+' Bấm được tại launcher: '+(clickOk?'có':'KHÔNG ('+(hit&&hit.tagName||'null')+' đè lên)')+'<br>'
+ +ok(winOk)+' Khung chat: '+(winOpen?wr.width.toFixed(0)+'x'+wr.height.toFixed(0)+' (chuẩn 360x520)':'chưa mở (bấm launcher để đo)')+'<br>'
+ +ok(fontOk)+' Chữ tin nhắn: '+(bub?fsB+' (chuẩn 14px)':'chưa có tin nhắn (gửi 1 tin để đo)')+'<br>'
+ +ok(textOk)+' Chữ: letter-spacing='+(cs?cs.letterSpacing:'-')+', transform='+(cs?cs.textTransform:'-')+', hướng='+(cs?cs.writingMode+'/'+cs.direction:'-')+'<br>'
+ +ok(gapOk)+' Thừa chiều cao trang: '+d+'px (chuẩn 0) | cao '+a+'/'+b+'<br>'
+ +'Host: dưới '+(host.parentNode===root?'&lt;html&gt;':'&lt;body&gt;')+' | top layer (Popover): '+(pop?'có':'không')+'<br>'
+ +(fails.length?'<b style="color:#fca5a5">KẾT QUẢ HIỆN TẠI: KHÔNG ĐẠT</b> ('+fails.join(', ')+')':'<b style="color:#86efac">KẾT QUẢ HIỆN TẠI: ĐẠT</b>');
+ box.innerHTML=out;
+}
+render();setInterval(render,1500);addEventListener('resize',render);addEventListener('click',function(){setTimeout(render,600)},true);
+})()</script>
 
     <header class="site-header">
         <div class="container header-inner">
