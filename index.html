@@ -11,8 +11,9 @@
 </head>
 <body>
 <div id="__case" style="position:fixed;left:8px;top:8px;max-width:360px;z-index:2147483646;background:#111;color:#fff;font:12px/1.4 monospace;padding:6px 8px;border-radius:6px;letter-spacing:0;text-transform:none;writing-mode:horizontal-tb;direction:ltr;pointer-events:none;white-space:normal;text-indent:0;font-weight:400;font-style:normal;text-shadow:none">
-<b>CASE 9</b>: Thừa kế thuộc tính chữ từ body<br><span id="__fs"></span></div>
-<script>(function(){var u=function(){var e=document.getElementById('__fs');if(e)e.textContent='html font-size='+getComputedStyle(document.documentElement).fontSize+' | w='+innerWidth+'px'};addEventListener('DOMContentLoaded',u);addEventListener('resize',u);u()})()</script>
+<b>CASE 9</b>: Thừa kế thuộc tính chữ từ body<br><span id="__fs"></span><br><span id="__gap">host: chưa tải</span></div>
+<script>(function(){var u=function(){var e=document.getElementById('__fs');if(e)e.textContent='html font-size='+getComputedStyle(document.documentElement).fontSize+' | w='+innerWidth+'px'};addEventListener('DOMContentLoaded',u);addEventListener('resize',u);u();
+var g=function(){var e=document.getElementById('__gap'),h=document.querySelector('[data-mrag-widget-host]');if(!e)return;if(!h){e.textContent='host: chưa tải';return}var r=document.documentElement,a=r.scrollHeight,v=h.style.getPropertyValue('display'),p=h.style.getPropertyPriority('display');h.style.setProperty('display','none','important');var b=r.scrollHeight;h.style.setProperty('display',v||'block',p);var d=a-b;e.style.color=d>0?'#fca5a5':'#86efac';e.textContent='chiều cao trang: có host '+a+' / không host '+b+' => thừa '+d+'px'+(h.parentNode===document.documentElement?' (host dưới html)':' (host dưới body)')};setInterval(g,2000)})()</script>
 
     <header class="site-header">
         <div class="container header-inner">
